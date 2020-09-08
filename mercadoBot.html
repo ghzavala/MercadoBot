@@ -10,16 +10,111 @@
         }
         
     </style>
+
+    <script>
+
+    main();
+
+    function main(){
+
+        let productos = ['Licuadora','Televisor','Notebook','Heladera','Smartphone'];   // productos en el mercado
+        let precios = [500,1500,2000,3000,3000];    // precio de cada producto
+        let stock = [0,0,0,0,0];    // stock del usuario (cantidad por producto)
+        let billetera = 10000;  // dinero del que dispone el usuario
+        let compraVenta = 2;  // 0-Vender; 1-Comprar
+        let indice = 5; // puntero de los arrays
+        let i=0;
+
+        while(1){
+            compraVenta = 2;
+            indice = 5;
+            
+            while(compraVenta < 0 || compraVenta > 1){    // consulta que operación quiere realizar, repregunta hasta respuesta correcta
+                compraVenta = mensajeOperacion(2, billetera, stock);
+            }
+
+            while(indice < 0 || indice > 4){    // consulta con que producto quiere operar, repregunta hasta respuesta correcta
+                indice = mensajeOperacion(compraVenta, billetera, stock);
+            }
+
+            switch(compraVenta){
+                case 0:
+                    if(stock[indice] > 0){
+                        billetera = billetera + precios[indice];
+                        stock[indice]--;
+                    }
+                    else{
+                        alert("No posee ese producto.\nPor favor comienze nuevamente.");
+                        compraVenta = 2;
+                    }
+                    break;
+                case 1:
+                    if(billetera >= precios[indice]){
+                        billetera = billetera - precios[indice];
+                        stock[indice]++;
+                    }
+                    else{
+                        alert("No dispone de suficiente crédito para la operación.\nPor favor comienze nuevamente.");
+                        compraVenta = 2;
+                    }
+                    break;
+            }
+
+            if(compraVenta < 2){
+                mensajeFelicitaciones(compraVenta, productos[indice]);
+            }
+
+        }
+
+    }
+
+    function mensajeOperacion(operacion, creditos, cantidades){
+            
+        let mensajeTotal = "Usted dispone en su cuenta de $" + creditos + "\n" + "Y posee los siguientes productos:\n\n";
+
+        let mensajeArray = ["ID            |        1        |       2       |        3        |       4        |         5\n",
+                            "Producto | Licuadora | Televisor | Notebook | Heladera | Smartphone\n",
+                            "Precio     |       500      |    1500    |     2000     |    3000     |      3000\n",
+                            "Cantidad |        " + cantidades[0] + "        |        " + cantidades[1] + "      |        " + cantidades[2] + "        |        " + cantidades[3] + "       |        " + cantidades[4] +" \n"]
+        
+        
+        for(i=0; i < 4; i++){
+            mensajeTotal = mensajeTotal + mensajeArray[i];
+        }
+        
+        switch(operacion){
+            case 0:
+                texto = "¿Que producto desea vender? (Seleccione por ID)";
+                break;
+            case 1:
+                texto = "¿Que producto desea comprar? (Seleccione por ID)";
+                break;
+            case 2:
+                texto = "¿Que operación desea realizar? (1-Vender / 2-Comprar)";
+                break;
+        }
+        
+        mensajeTotal = mensajeTotal + "\n" + texto;
+        return parseInt(prompt(mensajeTotal) - 1);
+    }
+
+    function mensajeFelicitaciones(operacion, producto){
+        let texto = "";
+
+        switch(operacion){
+            case 0:
+                texto = "vender";
+                break;
+            case 1:
+                texto = "comprar";
+                break;
+        }
+        alert("Felicitaciones!!! Usted acaba de " + texto + " el producto " + producto);
+    }
+
+    </script>
+
 </head>
 <body>
-    
-    <head>
-        <h1>MercadoBot</h1>
-    </head>
-
-    <main>
-        
-    </main>
-
 </body>
 </html>
